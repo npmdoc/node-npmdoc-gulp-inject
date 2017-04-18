@@ -56,6 +56,15 @@
 
         <li>
 
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-inject.gulp-inject">
+            function <span class="apidocSignatureSpan"></span>gulp-inject
+            <span class="apidocSignatureSpan">(sources, opt)</span>
+            </a>
+
+        </li>
+
+        <li>
+
             <a class="apidocElementLiA" href="#apidoc.element.gulp-inject.transform">
             function <span class="apidocSignatureSpan">gulp-inject.</span>transform
             <span class="apidocSignatureSpan">(filepath, i, length, sourceFile, targetFile)</span>
@@ -794,6 +803,56 @@
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.gulp-inject" id="apidoc.module.gulp-inject">module gulp-inject</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-inject.gulp-inject" id="apidoc.element.gulp-inject.gulp-inject">
+        function <span class="apidocSignatureSpan"></span>gulp-inject
+        <span class="apidocSignatureSpan">(sources, opt)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gulp-inject = function (sources, opt) {
+  if (!sources) {
+    throw error('Missing sources stream!');
+  }
+  if (!opt) {
+    opt = {};
+  }
+
+  if (opt.sort) {
+    throw error('sort option is deprecated! Use `sort-stream` module instead!');
+  }
+  if (opt.templateString) {
+    throw error('`templateString` option is deprecated! Create a virtual `vinyl` file instead!');
+  }
+  if (opt.transform &amp;&amp; typeof opt.transform !== 'function') {
+    throw error('transform option must be a function');
+  }
+  // Notify people of common mistakes...
+  if (typeof opt.read !== 'undefined') {
+    throw error('There is no `read` option. Did you mean to provide it for `gulp.src` perhaps?');
+  }
+
+  // Defaults:
+  opt.quiet = bool(opt, 'quiet', false);
+  opt.relative = bool(opt, 'relative', false);
+  opt.addRootSlash = bool(opt, 'addRootSlash', !opt.relative);
+  opt.transform = defaults(opt, 'transform', transform);
+  opt.tags = tags();
+  opt.name = defaults(opt, 'name', DEFAULT_NAME_FOR_TAGS);
+  transform.selfClosingTag = bool(opt, 'selfClosingTag', false);
+
+  // Is the first parameter a Vinyl File Stream:
+  if (typeof sources.on === 'function' &amp;&amp; typeof sources.pipe === 'function') {
+    return handleVinylStream(sources, opt);
+  }
+
+  throw error('passing target file as a string is deprecated! Pass a vinyl file stream (i.e. use `gulp.src`)!');
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
 
 
     <h2>
